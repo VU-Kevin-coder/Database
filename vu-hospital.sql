@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 01, 2025 at 06:57 PM
+-- Generation Time: Jan 04, 2025 at 02:05 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,8 +29,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `facility` (
   `Facility_ID` int(11) NOT NULL,
-  `FacilityName` varchar(100) DEFAULT NULL,
-  `LocationID` int(11) DEFAULT NULL
+  `Facilitytype` varchar(100) DEFAULT NULL,
+  `LocationID` int(11) DEFAULT NULL,
+  `Contact` varchar(10) DEFAULT NULL,
+  `Facility_head` varchar(100) DEFAULT NULL,
+  `date_added` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -41,11 +44,13 @@ CREATE TABLE `facility` (
 
 CREATE TABLE `patient_data` (
   `Patient_ID` int(11) NOT NULL,
-  `FirstName` varchar(50) DEFAULT NULL,
-  `LastName` varchar(50) DEFAULT NULL,
+  `Name` varchar(100) DEFAULT NULL,
+  `Gender` varchar(50) DEFAULT NULL,
   `DateOfBirth` date DEFAULT NULL,
-  `Gender` varchar(10) DEFAULT NULL,
-  `PhoneNumber` varchar(15) DEFAULT NULL
+  `Next_of_Kin` varchar(100) DEFAULT NULL,
+  `PhoneNumber` varchar(10) DEFAULT NULL,
+  `Address` varchar(100) DEFAULT NULL,
+  `date_added` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -73,7 +78,9 @@ CREATE TABLE `supply_chain` (
   `SupplyID` int(11) NOT NULL,
   `Facility_ID` int(11) DEFAULT NULL,
   `ResourceID` int(11) DEFAULT NULL,
-  `Quantity` int(11) DEFAULT NULL
+  `Quantity_shipped` varchar(100) DEFAULT NULL,
+  `Arrival_Date` date DEFAULT NULL,
+  `Supplier` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -86,7 +93,9 @@ CREATE TABLE `treatment` (
   `TreatmentID` int(11) NOT NULL,
   `Visit_ID` int(11) DEFAULT NULL,
   `TreatmentName` varchar(100) DEFAULT NULL,
-  `Dosage` varchar(50) DEFAULT NULL
+  `Dosage` varchar(50) DEFAULT NULL,
+  `Treatment_Date` date DEFAULT NULL,
+  `side_effects` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -99,7 +108,8 @@ CREATE TABLE `visit_record` (
   `Visit_ID` int(11) NOT NULL,
   `Patient_ID` int(11) DEFAULT NULL,
   `VisitDate` date DEFAULT NULL,
-  `Facility_ID` int(11) DEFAULT NULL
+  `Facility_ID` int(11) DEFAULT NULL,
+  `Visit_no` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -123,30 +133,30 @@ ALTER TABLE `patient_data`
 --
 ALTER TABLE `resource`
   ADD PRIMARY KEY (`ResourceID`),
-  ADD KEY `Facility_ID` (`Facility_ID`);
+  ADD KEY `resource_ibfk_1` (`Facility_ID`);
 
 --
 -- Indexes for table `supply_chain`
 --
 ALTER TABLE `supply_chain`
   ADD PRIMARY KEY (`SupplyID`),
-  ADD KEY `Facility_ID` (`Facility_ID`),
-  ADD KEY `ResourceID` (`ResourceID`);
+  ADD KEY `supply_chain_ibfk_1` (`Facility_ID`),
+  ADD KEY `supply_chain_ibfk_2` (`ResourceID`);
 
 --
 -- Indexes for table `treatment`
 --
 ALTER TABLE `treatment`
   ADD PRIMARY KEY (`TreatmentID`),
-  ADD KEY `Visit_ID` (`Visit_ID`);
+  ADD KEY `treatment_ibfk_1` (`Visit_ID`);
 
 --
 -- Indexes for table `visit_record`
 --
 ALTER TABLE `visit_record`
   ADD PRIMARY KEY (`Visit_ID`),
-  ADD KEY `Facility_ID` (`Facility_ID`),
-  ADD KEY `Patient_ID` (`Patient_ID`);
+  ADD KEY `visit_record_ibfk_1` (`Facility_ID`),
+  ADD KEY `visit_record_ibfk_2` (`Patient_ID`);
 
 --
 -- Constraints for dumped tables
@@ -182,3 +192,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
