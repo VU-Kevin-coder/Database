@@ -360,8 +360,6 @@ ALTER TABLE `visit_records`
 --
 ALTER TABLE `health_facility`
   ADD CONSTRAINT `health_facility_ibfk_1` FOREIGN KEY (`Location_ID`) REFERENCES `location` (`Location_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `health_facility_ibfk_2` FOREIGN KEY (`Facility_ID`) REFERENCES `resource` (`Resource_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
 --
 -- Constraints for table `resource`
 --
